@@ -22,4 +22,4 @@ The API is a HTTP REST API, secured with OAuth.
 
 ### How do I get DataBoss?
 
-Contact us [via email](mailto:support@databoss.io) or [call us](tel:8063100538) to get in touch with our team and we can discuss pricing and the onboarding process.
+Contact us [via email (support@databoss.io)](mailto:support@databoss.io) or [call us (+1 806-224-1426)](tel:+18062241426) to get in touch with our team and we can discuss pricing and the onboarding process.
