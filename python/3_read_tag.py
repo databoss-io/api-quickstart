@@ -1,3 +1,4 @@
+import json
 from os import getenv
 import requests
 
@@ -5,9 +6,13 @@ import requests
 
 # Windows: you can use `set DATABOSS_CLIENT_ID=<value>` to set the environment
 # Linux/macOS: you can use `export DATABOSS_CLIENT_ID=<value>` to set the environment
-# Repeat the same with the DATABOSS_CLIENT_SECRET
+# Repeat the same with the DATABOSS_CLIENT_SECRET, DATABOSS_ORG_ID, and DATABOSS_AGENT_ID
 CLIENT_ID = getenv("DATABOSS_CLIENT_ID")
 CLIENT_SECRET = getenv("DATABOSS_CLIENT_SECRET")
+ORGANIZATION_ID = getenv("DATABOSS_ORG_ID")
+AGENT_ID = getenv("DATABOSS_AGENT_ID")
+TAG_NAME = input("Name of tag to get: ")
+
 
 # Get access token ------------------------------------------------------------
 
@@ -34,17 +39,14 @@ if not access_token:
 
 # Perform test call -----------------------------------------------------------
 
-whoami = requests.get("https://api-prod.databoss.io/auth/whoami", headers={
+get_tag = requests.get(f"https://api-prod.databoss.io/v1/organization/{ORGANIZATION_ID}/agent/{AGENT_ID}/data/{TAG_NAME}/latest", headers={
     "Authorization": f"Bearer {access_token}"
 })
-whoami.raise_for_status()
-whoami_resp = whoami.json()
+get_tag.raise_for_status()
+tag_resp = get_tag.json()
 
 # Final output ----------------------------------------------------------------
 
-print("****** Access Token ******")
-print(access_token)
-print("**************************")
-print("\r\n****** Identity *******")
-print(whoami_resp.get('result'))
+print("\r\n****** Tag Read *******")
+print(json.dumps(tag_resp.get('result'), indent=2))
 print("***********************")

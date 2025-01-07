@@ -1,3 +1,4 @@
+import json
 from os import getenv
 import requests
 
@@ -34,17 +35,14 @@ if not access_token:
 
 # Perform test call -----------------------------------------------------------
 
-whoami = requests.get("https://api-prod.databoss.io/auth/whoami", headers={
+orgs = requests.get("https://api-prod.databoss.io/v1/organization/mine", headers={
     "Authorization": f"Bearer {access_token}"
 })
-whoami.raise_for_status()
-whoami_resp = whoami.json()
+orgs.raise_for_status()
+orgs_resp = orgs.json()
 
 # Final output ----------------------------------------------------------------
 
-print("****** Access Token ******")
-print(access_token)
-print("**************************")
-print("\r\n****** Identity *******")
-print(whoami_resp.get('result'))
+print("\r\n****** Granted Organizations *******")
+print(json.dumps(orgs_resp.get('result'), indent=2))
 print("***********************")
